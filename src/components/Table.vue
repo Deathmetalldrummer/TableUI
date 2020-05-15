@@ -6,14 +6,14 @@
         tr
           th
             .th
-              input(type="checkbox")
+              input(type="checkbox" v-model="checkbox" @click="checkAllChanged($event)")
           th(v-for="item in productsHeader")
             .th {{item[1]}}
       tbody
-        tr(v-for='product in products')
+        tr(v-for='product in products' @click="rowEvent($event)")
           td
             .td
-              input(type="checkbox")
+              input(type="checkbox" v-model="checkboxes" :value="product.id" name="tableCheckbox")
           td(v-for='item in productsHeader')
             .td {{product[item[0]]}}
 </template>
@@ -23,6 +23,8 @@
         name: 'TableUI',
         data () {
             return {
+              checkboxes: [],
+              checkbox: false,
               message: 'Слава Одину, Table работает!',
               productsHeader: [
                 ['product', 'Product(100g serving)'],
@@ -31,12 +33,27 @@
                 ['carbs', 'Carbs (g)'],
                 ['protein', 'Protein (g)'],
                 ['iron', 'Iron (%)']
-              ]
+              ],
+              timeout: null
             }
         },
         computed: {
           products () {
             return this.$store.getters.products
+          }
+        },
+        methods: {
+          rowEvent (event) {
+            // if (window.getSelection().toString() !== '') return
+            const input = event.currentTarget.querySelector('input')
+            if (event.target !== input) {
+              input.click()
+              this.checkbox = this.products.length === this.checkboxes.length
+              // input.checked = !input.checked
+            }
+          },
+          checkAllChanged (event) {
+            this.checkboxes = event.target.checked ? this.products.map(item => item.id) : []
           }
         }
     }
