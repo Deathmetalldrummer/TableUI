@@ -5,7 +5,7 @@
 <script>
     export default {
         name: 'Checkbox',
-        data() {
+        data () {
             return {
                 message: 'Слава Одину, Checkbox работает!'
             }

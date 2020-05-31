@@ -6,21 +6,31 @@
         tr
           th
             .th
-              input(type="checkbox" v-model="checkbox" @click="checkAllChanged($event)")
+              label.checkbox
+                input(type="checkbox" v-model="checkbox" @click="checkAllChanged($event)").checkbox__field
+                .checkbox__fake
+                  Icons(name="checkbox").checkbox__icon
           th(v-for="item in productsHeader")
             .th {{item[1]}}
       tbody
-        tr(v-for='product in products' @click="rowEvent($event)")
+        tr(v-for='product in products')
           td
             .td
-              input(type="checkbox" v-model="checkboxes" :value="product.id" name="tableCheckbox")
+              label.checkbox
+                input(type="checkbox" v-model="checkboxes" :value="product.id" name="tableCheckbox").checkbox__field
+                .checkbox__fake
+                  Icons(name="checkbox").checkbox__icon
           td(v-for='item in productsHeader')
             .td {{product[item[0]]}}
 </template>
 
 <script>
+    import Icons from './Icons'
     export default {
         name: 'TableUI',
+        components: {
+          Icons
+        },
         data () {
             return {
               checkboxes: [],

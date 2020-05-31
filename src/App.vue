@@ -18,4 +18,29 @@
 <style lang="sass">
 body
   background-color: #F2F2F2
+
+.checkbox
+  display: inline-block
+  cursor: pointer
+.checkbox__field
+  display: none
+  &:checked + .checkbox__fake
+    border-color: #00A11E
+    .checkbox__icon
+      opacity: 1
+.checkbox__fake
+  width: 0.875em
+  height: 0.875em
+  cursor: pointer
+  transition-duration: 0.3s
+  border: 1px solid #C6CBD4
+  border-radius: 1px
+  overflow: hidden
+.checkbox__icon
+  display: inline-block
+  width: 100%
+  height: 100%
+  transition-duration: 0.3s
+  opacity: 0
+  fill: #00A11E
 </style>
