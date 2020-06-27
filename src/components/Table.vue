@@ -6,29 +6,25 @@
         tr
           th
             .th
-              label.checkbox
-                input(type="checkbox" v-model="checkbox" @click="checkAllChanged($event)").checkbox__field
-                .checkbox__fake
-                  Icons(name="checkbox").checkbox__icon
+              Checkbox(v-model="checkbox" @click.native="checkAllChanged($event)")
           th(v-for="item in productsHeader")
             .th {{item[1]}}
       tbody
         tr(v-for='product in products')
           td
             .td
-              label.checkbox
-                input(type="checkbox" v-model="checkboxes" :value="product.id" name="tableCheckbox").checkbox__field
-                .checkbox__fake
-                  Icons(name="checkbox").checkbox__icon
+              Checkbox(v-model="checkboxes" :val="product.id")
           td(v-for='item in productsHeader')
             .td {{product[item[0]]}}
 </template>
 
 <script>
     import Icons from './Icons'
+    import Checkbox from './Checkbox'
     export default {
         name: 'TableUI',
         components: {
+          Checkbox,
           Icons
         },
         data () {
@@ -63,7 +59,17 @@
             }
           },
           checkAllChanged (event) {
-            this.checkboxes = event.target.checked ? this.products.map(item => item.id) : []
+            if (typeof event.target.checked === 'boolean') {
+              this.checkboxes = event.target.checked ? this.products.map(item => item.id) : []
+            }
+          }
+        },
+        watch: {
+          checkboxes () {
+            const checkbox = this.products.length === this.checkboxes.length
+            if (checkbox !== this.checkbox) {
+              this.checkbox = checkbox
+            }
           }
         }
     }
