@@ -77,11 +77,11 @@
 .dropdown__dropbox
 	position: absolute
 	top: 100%
-	left: 0
+	right: 0
 	min-width: 100%
 	margin-top: 13px
 	background-color: #fff
-	box-shadow: $border_color_base
+	box-shadow: $box_shadow
 	border-radius: 4px
 	max-height: 15em
 	overflow: auto
