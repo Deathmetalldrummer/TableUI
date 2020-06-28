@@ -3,19 +3,17 @@
 		<h1><a href="https://www.figma.com/file/jSjeMxTorX3tO2YqJP8sdZ" target="_blank">Table UI</a> | <a
 			href="https://paper.dropbox.com/doc/Vue.js--AyExgaHEe80wg~WW8POCkrDpAg-GdUBmChbMHVOrnrMdsu3j"
 			target="_blank">ТЗ</a></h1>
-		<Dropdown :list="dropdownList" :title="dropdownTitle" @value="dropdownSelected($event)"></Dropdown>
-		<DropdownCheckbox :list="dropdownCheckboxesList" :title="dropdownCheckboxesTitle"
-							@selected="dropdownCheckboxesSelected($event)"></DropdownCheckbox>
-		<DropdownSimple :title="dropdownTitle">
-			<Droplist :list="dropdownList" @value="dropdownSelected($event)"></Droplist>
-		</DropdownSimple>
-		<DropdownSimple :title="dropdownCheckboxesTitle">
-			<DroplistCheckbox :list="dropdownCheckboxesList"
-								@selected="dropdownCheckboxesSelected($event)"></DroplistCheckbox>
-		</DropdownSimple>
-		<br>
-		<br>
-		<br>
+		<div class="tableBar">
+			<div class="tableBar__">Sort</div>
+			<div class="tableBar__">Del</div>
+			<div class="tableBar__">
+				<Dropdown :list="dropdownList" :title="dropdownTitle" @value="dropdownSelected($event)"></Dropdown>
+			</div>
+			<div class="tableBar__">Pagination</div>
+			<div class="tableBar__">
+				<DropdownCheckbox :list="dropdownCheckboxesList" :title="dropdownCheckboxesTitle" @selected="dropdownCheckboxesSelected($event)"></DropdownCheckbox>
+			</div>
+		</div>
 		<TableUI></TableUI>
 	</div>
 </template>
@@ -23,18 +21,12 @@
 	import TableUI from '@/components/Table'
 	import Dropdown from '@/components/Dropdown'
 	import DropdownCheckbox from '@/components/DropdownCheckbox'
-	import DropdownSimple from '@/components/DropdownSimple'
-	import DroplistCheckbox from '@/components/DroplistCheckbox'
-	import Droplist from '@/components/Droplist'
 
 	export default {
 		components: {
 			TableUI,
 			Dropdown,
-			DropdownCheckbox,
-			DropdownSimple,
-			DroplistCheckbox,
-			Droplist
+			DropdownCheckbox
 		},
 		data () {
 			return {
@@ -82,4 +74,16 @@
 	@import './assets/sass/glob'
 	body
 		background-color: #F2F2F2
+	.tableBar
+		display: flex
+		justify-content: space-between
+		align-content: center
+		border-top: 1px solid $border_color_base
+		padding: 1em 0
+	.tableBar__
+		flex-shrink: 0
+		&:first-of-type
+			flex-grow: 1
+		&+&
+			margin-left: 1em
 </style>
