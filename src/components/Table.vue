@@ -19,13 +19,11 @@
 </template>
 
 <script>
-    import Icons from './Icons'
     import Checkbox from './Checkbox'
     export default {
         name: 'TableUI',
         components: {
-          Checkbox,
-          Icons
+          Checkbox
         },
         data () {
             return {
