@@ -16,6 +16,7 @@
   }
 </script>
 <style lang="sass">
-body
-  background-color: #F2F2F2
+	@import './assets/sass/glob'
+	body
+		background-color: #F2F2F2
 </style>
