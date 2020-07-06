@@ -1,0 +1,53 @@
+@import "../variable"
+.btn
+	display: inline-block
+	font-size: 0.875rem //- 14px
+	line-height: 1.5
+	color: $color_light
+	fill: $color_light
+	background-color: transparent
+	border: 1px solid $border_color_base
+	border-radius: (1em/7) //- 2px
+	padding: 0.286em 1em
+	outline: none
+	cursor: pointer
+	transition-duration: $dropdown_transition
+	&:focus,
+	&:hover
+		border-color: $color_light
+	&_active,
+	&:active
+		border-color: $accent
+		color: $accent
+		fill: $accent
+	&_depressed
+		background-color: $accent
+		border-color: $accent
+		color: #fff
+		fill: #fff
+		&:focus,
+		&:hover
+			background-color: darken($accent, 10%)
+			border-color: darken($accent, 10%)
+		&_active,
+		&:active
+			background-color: $accent
+			border-color: $accent
+			color: #fff
+	&_block
+		display: block
+		width: 100%
+		margin: auto
+	&:disabled
+		pointer-events: none
+		opacity: 0.3
+	&_icon
+		padding: 0.286em 0.8em
+	&__text,
+	&__icon
+		display: inline-block
+		vertical-align: middle
+	&__text ~ &__icon
+		margin-left: 0.5em
+	&__icon
+		width: 0.6em
