@@ -9,7 +9,9 @@
 			<div class="tableBar__">
 				<Dropdown :list="dropdownList" :title="dropdownTitle" @value="dropdownSelected($event)"></Dropdown>
 			</div>
-			<div class="tableBar__">Pagination</div>
+			<div class="tableBar__">
+				<Pagination :perPage="perPage" :length="productCount"></Pagination>
+			</div>
 			<div class="tableBar__">
 				<DropdownCheckbox :list="dropdownCheckboxesList" :title="dropdownCheckboxesTitle" @selected="dropdownCheckboxesSelected($event)"></DropdownCheckbox>
 			</div>
@@ -21,12 +23,14 @@
 	import TableUI from '@/components/Table'
 	import Dropdown from '@/components/Dropdown'
 	import DropdownCheckbox from '@/components/DropdownCheckbox'
+	import Pagination from '@/components/Pagination'
 
 	export default {
 		components: {
 			TableUI,
 			Dropdown,
-			DropdownCheckbox
+			DropdownCheckbox,
+			Pagination
 		},
 		data () {
 			return {
@@ -53,8 +57,12 @@
 						value: 'iron'
 					}],
 				dropdownCheckboxesTitle: '0 columns selected',
-				showDropbox: false
+				showDropbox: false,
+				perPage: 10
 			}
+		},
+		computed: {
+			productCount () { return this.$store.getters.productsCount }
 		},
 		mounted () {
 			this.$store.dispatch('products')
@@ -65,6 +73,7 @@
 				this.dropdownCheckboxesTitle = value.length + ' columns selected'
 			},
 			dropdownSelected (value) {
+				this.perPage = value
 				this.dropdownTitle = value + ' Per Page'
 			}
 		}

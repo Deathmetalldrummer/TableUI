@@ -8,7 +8,8 @@ export default new Vuex.Store({
     products: null
   },
   getters: {
-    products: state => state.products
+    products: state => state.products,
+    productsCount: state => state.products ? state.products.length : 0
   },
   mutations: {
     products: (state, payload) => { state.products = payload }
