@@ -1,6 +1,8 @@
 <template lang="pug">
 	.dropdown(v-click-outside="close")
-		button(type="button" @click="showList = !showList" :class="{'dropdown__action_active': showList}").dropdown__action {{title}}
+		button(type="button" @click="showList = !showList" :class="{'dropdown__action_active': showList}").btn.dropdown__action
+			span.btn__text {{title}}
+			Icons(name="chevronDown").btn__icon.dropdown__icon
 		transition(name="fade")
 			.dropdown__dropbox(v-if="showList")
 				ul.dropdown__list
@@ -8,9 +10,12 @@
 </template>
 
 <script>
+	import Icons from './Icons'
+
 	export default {
 		name: 'Dropdown',
 		props: ['list', 'title'],
+		components: { Icons },
 		data () {
 			return {
 				message: 'Слава Одину, Dropdown работает!',
@@ -39,22 +44,9 @@
 	display: inline-block
 
 .dropdown__action
-	font-family: "Source Sans Pro", serif
-	font-size: 0.875em
-	line-height: 1.5
-	color: $color_light
-	background-color: transparent
-	border: 1px solid $border_color_base
-	border-radius: 2px
-	padding: 0.286em 1em
-	outline: none
-	cursor: pointer
-	transition-duration: $dropdown_transition
-
-	&_active,
-	&:focus
-		border-color: $color_light
-
+	&_active
+		.dropdown__icon
+			transform: scaleY(-1)
 .dropdown__dropbox
 	position: absolute
 	top: 100%
@@ -66,7 +58,10 @@
 	border-radius: 4px
 	max-height: 15em
 	overflow: auto
-
+.dropdown__icon
+	width: 0.7em
+	height: 0.5em
+	transition-duration: $dropdown_transition
 .dropdown__list
 	list-style: none
 	padding: 0

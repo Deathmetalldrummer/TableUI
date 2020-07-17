@@ -1,15 +1,20 @@
 <template lang="pug">
 	.dropdown(v-click-outside="close")
-		button(type="button" @click="show = !show" :class="{'dropdown__action_active': show}").dropdown__action {{title}}
+		button(type="button" @click="show = !show" :class="{'dropdown__action_active': show}").btn.dropdown__action
+			span.btn__text {{title}}
+			Icons(name="chevronDown").btn__icon.dropdown__icon
 		transition(name="fade")
 			.dropdown__dropbox(v-if="show")
 				slot
 </template>
 
 <script>
+	import Icons from './Icons'
+
 	export default {
 		name: 'DropdownSimple',
 		props: ['title', 'showDropbox'],
+		components: { Icons },
 		data () {
 			return {
 				message: 'Слава Одину, DropdownSimple работает!',
@@ -33,22 +38,13 @@
 		display: inline-block
 
 	.dropdown__action
-		font-family: "Source Sans Pro", serif
-		font-size: 0.875em
-		line-height: 1.5
-		color: $color_light
-		background-color: transparent
-		border: 1px solid $border_color_base
-		border-radius: 2px
-		padding: 0.286em 1em
-		outline: none
-		cursor: pointer
+		&_active
+			.dropdown__icon
+				transform: scaleY(-1)
+	.dropdown__icon
+		width: 0.7em
+		height: 0.5em
 		transition-duration: $dropdown_transition
-
-		&_active,
-		&:focus
-			border-color: $color_light
-
 	.dropdown__dropbox
 		position: absolute
 		top: 100%
