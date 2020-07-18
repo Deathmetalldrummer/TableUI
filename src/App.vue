@@ -4,8 +4,12 @@
 			href="https://paper.dropbox.com/doc/Vue.js--AyExgaHEe80wg~WW8POCkrDpAg-GdUBmChbMHVOrnrMdsu3j"
 			target="_blank">ТЗ</a></h1>
 		<div class="tableBar">
-			<div class="tableBar__">Sort</div>
-			<div class="tableBar__">Del</div>
+			<div class="tableBar__">
+				<Sorting :list="dropdownCheckboxesList"></Sorting>
+			</div>
+			<div class="tableBar__">
+				<button class="btn" disabled>Delete</button>
+			</div>
 			<div class="tableBar__">
 				<Dropdown :list="dropdownList" :title="dropdownTitle" @value="dropdownSelected($event)"></Dropdown>
 			</div>
@@ -24,13 +28,15 @@
 	import Dropdown from '@/components/Dropdown'
 	import DropdownCheckbox from '@/components/DropdownCheckbox'
 	import Pagination from '@/components/Pagination'
+	import Sorting from '@/components/Sorting'
 
 	export default {
 		components: {
 			TableUI,
 			Dropdown,
 			DropdownCheckbox,
-			Pagination
+			Pagination,
+			Sorting
 		},
 		data () {
 			return {
