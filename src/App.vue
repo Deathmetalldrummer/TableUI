@@ -20,7 +20,12 @@
 				<DropdownCheckbox :list="dropdownCheckboxesList" :title="dropdownCheckboxesTitle" @selected="dropdownCheckboxesSelected($event)"></DropdownCheckbox>
 			</div>
 		</div>
-		<TableUI></TableUI>
+		<TableUI @action="log($event)">
+			<div slot="action" class="tableAction">
+				<Icons name="del" class="tableAction__icon"></Icons>
+				<span class="tableAction__text">delete</span>
+			</div>
+		</TableUI>
 	</div>
 </template>
 <script>
@@ -28,6 +33,7 @@
 	import Dropdown from '@/components/Dropdown'
 	import DropdownCheckbox from '@/components/DropdownCheckbox'
 	import Pagination from '@/components/Pagination'
+	import Icons from '@/components/Icons'
 	import Sorting from '@/components/Sorting'
 
 	export default {
@@ -36,6 +42,7 @@
 			Dropdown,
 			DropdownCheckbox,
 			Pagination,
+			Icons,
 			Sorting
 		},
 		data () {
@@ -81,6 +88,9 @@
 			dropdownSelected (value) {
 				this.perPage = value
 				this.dropdownTitle = value + ' Per Page'
+			},
+			log (value) {
+				console.log(123, value.id)
 			}
 		}
 	}
@@ -101,4 +111,16 @@
 			flex-grow: 1
 		&+&
 			margin-left: 1em
+	.tableAction
+		font-size: 1em
+		display: flex
+		justify-content: center
+		align-items: center
+		color: $color_light
+		fill: $color_light
+		cursor: pointer
+	.tableAction__icon
+		width: 1em
+		margin-right: 5px
+	.tableAction__text
 </style>

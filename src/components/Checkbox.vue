@@ -3,7 +3,7 @@
 		input(type="checkbox" v-model="model" :value="val" @change="$emit('input', result)").checkbox__field
 		.checkbox__fake
 			Icons(name="checkbox").checkbox__icon
-		.checkbox__title {{title}}
+		.checkbox__title(v-if="title") {{title}}
 </template>
 
 <script>

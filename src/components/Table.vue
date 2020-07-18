@@ -9,6 +9,7 @@
               Checkbox(v-model="checkbox" @click.native="checkAllChanged($event)")
           th(v-for="item in productsHeader")
             .th {{item[1]}}
+          th(v-if='$slots.action')
       tbody
         tr(v-for='product in products')
           td
@@ -16,6 +17,9 @@
               Checkbox(v-model="checkboxes" :val="product.id")
           td(v-for='item in productsHeader')
             .td {{product[item[0]]}}
+          td(v-if='$slots.action').td__action
+            .td(@click="$emit('action', product)")
+              slot(name="action")
 </template>
 
 <script>
@@ -85,8 +89,13 @@ th:first-of-type,
 td:first-of-type
   .td,
   .th
-    padding-left: 1em
+    padding-left: 2em
+th:last-of-type,
+td:last-of-type
+  .td
+    padding-right: 2em
 .td,.th
+  font-size: 0.875em
   padding: 0.5em
 thead
   box-shadow: 0 1px 0 0 #D5DAE0
@@ -96,4 +105,6 @@ tbody tr
     background-color: #F8F9FA
   &:hover
     background-color: rgba(0, 161, 30, 0.07)
+.td__action
+  width: 1px
 </style>
