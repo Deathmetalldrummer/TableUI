@@ -18,7 +18,7 @@
           td(v-for='item in productsHeader')
             .td {{product[item[0]]}}
           td(v-if='$slots.action').td__action
-            .td(@click="$emit('action', product)")
+            .td(@click="actionEvent($event, product)")
               slot(name="action")
 </template>
 
@@ -64,7 +64,11 @@
             if (typeof event.target.checked === 'boolean') {
               this.checkboxes = event.target.checked ? this.products.map(item => item.id) : []
             }
-          }
+          },
+			actionEvent (event, product) {
+				event.stopPropagation()
+				this.$emit('action', product)
+			}
         },
         watch: {
           checkboxes () {

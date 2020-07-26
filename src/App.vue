@@ -3,29 +3,33 @@
 		<h1><a href="https://www.figma.com/file/jSjeMxTorX3tO2YqJP8sdZ" target="_blank">Table UI</a> | <a
 			href="https://paper.dropbox.com/doc/Vue.js--AyExgaHEe80wg~WW8POCkrDpAg-GdUBmChbMHVOrnrMdsu3j"
 			target="_blank">ТЗ</a></h1>
-		<div class="tableBar">
-			<div class="tableBar__">
-				<Sorting :list="dropdownCheckboxesList"></Sorting>
-			</div>
-			<div class="tableBar__">
-				<button class="btn" disabled>Delete</button>
-			</div>
-			<div class="tableBar__">
-				<Dropdown :list="dropdownList" :title="dropdownTitle" @value="dropdownSelected($event)"></Dropdown>
-			</div>
-			<div class="tableBar__">
-				<Pagination :perPage="perPage" :length="productCount"></Pagination>
-			</div>
-			<div class="tableBar__">
-				<DropdownCheckbox :list="dropdownCheckboxesList" :title="dropdownCheckboxesTitle" @selected="dropdownCheckboxesSelected($event)"></DropdownCheckbox>
+		<div class="tableBar_wrap">
+			<div class="tableBar">
+				<div class="tableBar__">
+					<Sorting :list="dropdownCheckboxesList"></Sorting>
+				</div>
+				<div class="tableBar__">
+					<button class="btn" disabled>Delete</button>
+				</div>
+				<div class="tableBar__">
+					<Dropdown :list="dropdownList" :title="dropdownTitle" @value="dropdownSelected($event)"></Dropdown>
+				</div>
+				<div class="tableBar__">
+					<Pagination :perPage="perPage" :length="productCount"></Pagination>
+				</div>
+				<div class="tableBar__">
+					<DropdownCheckbox :list="dropdownCheckboxesList" :title="dropdownCheckboxesTitle" @selected="dropdownCheckboxesSelected($event)"></DropdownCheckbox>
+				</div>
 			</div>
 		</div>
-		<TableUI @action="log($event)">
-			<div slot="action" class="tableAction">
+		<TableUI @action="tableActionEvent($event)">
+			<div slot="action" class="tableAction" @click="onTableAction($event)">
 				<Icons name="del" class="tableAction__icon"></Icons>
 				<span class="tableAction__text">delete</span>
 			</div>
 		</TableUI>
+		<Confirm :el="elem" @confirm="confirmRespond($event)">Are you sure you want to <b>delete item</b>?
+		</Confirm>
 	</div>
 </template>
 <script>
@@ -35,6 +39,7 @@
 	import Pagination from '@/components/Pagination'
 	import Icons from '@/components/Icons'
 	import Sorting from '@/components/Sorting'
+	import Confirm from '@/components/Confirm'
 
 	export default {
 		components: {
@@ -43,7 +48,8 @@
 			DropdownCheckbox,
 			Pagination,
 			Icons,
-			Sorting
+			Sorting,
+			Confirm
 		},
 		data () {
 			return {
@@ -71,7 +77,9 @@
 					}],
 				dropdownCheckboxesTitle: '0 columns selected',
 				showDropbox: false,
-				perPage: 10
+				perPage: 10,
+				elem: null,
+				actionItem: null
 			}
 		},
 		computed: {
@@ -89,8 +97,17 @@
 				this.perPage = value
 				this.dropdownTitle = value + ' Per Page'
 			},
-			log (value) {
-				console.log(123, value.id)
+			tableActionEvent (value) {
+				this.actionItem = value
+			},
+			onTableAction (event) {
+				this.elem = {
+					el: event.currentTarget,
+					random: Math.random()
+				}
+			},
+			confirmRespond (value) {
+				console.log(this.actionItem, value)
 			}
 		}
 	}
@@ -99,18 +116,20 @@
 	@import './assets/sass/glob'
 	body
 		background-color: #F2F2F2
+	.tableBar_wrap
+		border-top: 1px solid $border_color_base
 	.tableBar
 		display: flex
+		flex-flow: row wrap
 		justify-content: space-between
 		align-content: center
-		border-top: 1px solid $border_color_base
-		padding: 1em 0
+		margin: 0 -0.5em
+		padding: 0.5em 0
 	.tableBar__
 		flex-shrink: 0
+		padding: 0.5em
 		&:first-of-type
 			flex-grow: 1
-		&+&
-			margin-left: 1em
 	.tableAction
 		font-size: 1em
 		display: flex
@@ -119,8 +138,17 @@
 		color: $color_light
 		fill: $color_light
 		cursor: pointer
+		position: relative
+		&:hover
+			.tableAction__confirm
+				display: block
 	.tableAction__icon
 		width: 1em
 		margin-right: 5px
 	.tableAction__text
+	.tableAction__confirm
+		z-index: 9999
+		top: 100%
+		display: none
+		position: absolute
 </style>

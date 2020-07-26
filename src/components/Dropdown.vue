@@ -49,6 +49,7 @@
 			transform: scaleY(-1)
 .dropdown__dropbox
 	position: absolute
+	z-index: 999
 	top: 100%
 	left: 0
 	min-width: 100%
