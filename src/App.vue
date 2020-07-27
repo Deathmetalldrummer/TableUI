@@ -6,23 +6,30 @@
 		<div class="tableBar_wrap">
 			<div class="tableBar">
 				<div class="tableBar__">
-					<Sorting :list="dropdownCheckboxesList"></Sorting>
+					<Sorting :list="productsHeaderSelected" @changed="sortingChanged($event)"></Sorting>
 				</div>
 				<div class="tableBar__">
-					<button class="btn" disabled>Delete</button>
+					<button :class="{'btn': true, 'btn_depressed': !deleteBtnDisabled}" :disabled="deleteBtnDisabled" @click="onDelete()">
+						{{deleteBtnText}}
+					</button>
 				</div>
 				<div class="tableBar__">
 					<Dropdown :list="dropdownList" :title="dropdownTitle" @value="dropdownSelected($event)"></Dropdown>
 				</div>
 				<div class="tableBar__">
-					<Pagination :perPage="perPage" :length="productCount"></Pagination>
+					<Pagination :perPage="perPage" :length="productCount" @change="pagination($event)"></Pagination>
 				</div>
 				<div class="tableBar__">
-					<DropdownCheckbox :list="dropdownCheckboxesList" :title="dropdownCheckboxesTitle" @selected="dropdownCheckboxesSelected($event)"></DropdownCheckbox>
+					<DropdownCheckbox :list="productsHeader" :title="dropdownCheckboxesTitle" @selected="dropdownCheckboxesSelected($event)"></DropdownCheckbox>
 				</div>
 			</div>
 		</div>
-		<TableUI @action="tableActionEvent($event)">
+		<TableUI
+			@action="tableActionEvent($event)"
+			:body="productsPerPage"
+			:header="productsHeaderSelected"
+			:sortBy="sortValue"
+			@checked="checkedEvent($event)">
 			<div slot="action" class="tableAction" @click="onTableAction($event)">
 				<Icons name="del" class="tableAction__icon"></Icons>
 				<span class="tableAction__text">delete</span>
@@ -55,42 +62,40 @@
 			return {
 				dropdownList: [10, 15, 20, 25],
 				dropdownTitle: '10 Per Page',
-				dropdownCheckboxesList: [
-					{
-						name: 'Product(100g serving)',
-						value: 'product'
-					}, {
-						name: 'Calories',
-						value: 'calories'
-					}, {
-						name: 'Fat (g)',
-						value: 'fat'
-					}, {
-						name: 'Carbs (g)',
-						value: 'carbs'
-					}, {
-						name: 'Protein (g)',
-						value: 'protein'
-					}, {
-						name: 'Iron (%)',
-						value: 'iron'
-					}],
 				dropdownCheckboxesTitle: '0 columns selected',
 				showDropbox: false,
 				perPage: 10,
 				elem: null,
-				actionItem: null
+				actionItem: null,
+				checked: null,
+				paginationValue: null,
+				productsHeaderSelectedValue: null,
+				sortValue: null
 			}
 		},
 		computed: {
-			productCount () { return this.$store.getters.productsCount }
+			productCount () { return this.$store.getters.productsCount },
+			products () { return this.$store.getters.products },
+			productsHeader () { return this.$store.getters.productsHeader },
+			productsPerPage () {
+				const from = this.paginationValue && (this.paginationValue._from - 1)
+				const to = this.paginationValue && (this.paginationValue._to)
+				return this.products && this.products.slice(from, to)
+			},
+			deleteBtnText () { return 'Delete' + (!this.deleteBtnDisabled ? ` (${this.checked.length})` : '') },
+			deleteBtnDisabled () { return !(this.checked && this.checked.length) },
+			productsHeaderSelected: {
+				set (value) { this.productsHeaderSelectedValue = value },
+				get () { return this.productsHeaderSelectedValue || this.productsHeader }
+			}
 		},
 		mounted () {
 			this.$store.dispatch('products')
-			this.dropdownCheckboxesTitle = this.dropdownCheckboxesList.length + ' columns selected'
+			this.dropdownCheckboxesTitle = this.productsHeader && this.productsHeader.length + ' columns selected'
 		},
 		methods: {
 			dropdownCheckboxesSelected (value) {
+				this.productsHeaderSelected = value
 				this.dropdownCheckboxesTitle = value.length + ' columns selected'
 			},
 			dropdownSelected (value) {
@@ -107,7 +112,21 @@
 				}
 			},
 			confirmRespond (value) {
-				console.log(this.actionItem, value)
+				if (value) {
+					this.$store.dispatch('deleteProduct', this.actionItem.id)
+				}
+			},
+			pagination (value) {
+				this.paginationValue = value
+			},
+			checkedEvent (value) {
+				this.checked = value
+			},
+			onDelete () {
+				this.checked.map((item) => this.$store.dispatch('deleteProduct', item))
+			},
+			sortingChanged (value) {
+				this.sortValue = value && value.value
 			}
 		}
 	}

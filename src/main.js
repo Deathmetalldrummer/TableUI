@@ -7,7 +7,7 @@ import { ClickOutside } from './directive/click-outside'
 Vue.config.productionTip = false
 Vue.directive('click-outside', ClickOutside)
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+	router,
+	store,
+	render: h => h(App)
 }).$mount('#app')
