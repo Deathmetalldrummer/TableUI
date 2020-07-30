@@ -1,7 +1,7 @@
 <template lang="pug">
 	.table
-		div(v-if='!body') Empty
-		table(v-if='body')
+		div(v-if='!showTable') Empty
+		table(v-if='showTable')
 			thead
 				tr
 					th
@@ -70,6 +70,7 @@
 			}
 		},
 		computed: {
+			showTable () { return this.body && this.body.length && this.header && this.header.length },
 			bodySorted () {
 				const body = JSON.parse(JSON.stringify(this.body))
 				return body.sort(this.sortBodyMethod)
