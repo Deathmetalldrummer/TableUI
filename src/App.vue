@@ -9,7 +9,7 @@
 					<Sorting :list="productsHeaderSelected" @changed="sortingChanged($event)"></Sorting>
 				</div>
 				<div class="tableBar__">
-					<button :class="{'btn': true, 'btn_depressed': !deleteBtnDisabled}" :disabled="deleteBtnDisabled" @click="onDelete()">
+					<button :class="{'btn': true, 'btn_depressed': !deleteBtnDisabled}" :disabled="deleteBtnDisabled" @click="showConfirm($event, 'array')">
 						{{deleteBtnText}}
 					</button>
 				</div>
@@ -30,7 +30,7 @@
 			:header="productsHeaderSelected"
 			:sortBy="sortValue"
 			@checked="checkedEvent($event)">
-			<div slot="action" class="tableAction" @click="onTableAction($event)">
+			<div slot="action" class="tableAction" @click="showConfirm($event, 'item')">
 				<Icons name="del" class="tableAction__icon"></Icons>
 				<span class="tableAction__text">delete</span>
 			</div>
@@ -66,6 +66,7 @@
 				showDropbox: false,
 				perPage: 10,
 				elem: null,
+				deleteType: null, // null | 'item' | 'array'
 				actionItem: null,
 				checked: null,
 				paginationValue: null,
@@ -105,15 +106,22 @@
 			tableActionEvent (value) {
 				this.actionItem = value
 			},
-			onTableAction (event) {
+			showConfirm (event, type) {
+				this.deleteType = type
 				this.elem = {
 					el: event.currentTarget,
 					random: Math.random()
 				}
 			},
 			confirmRespond (value) {
-				if (value) {
-					this.$store.dispatch('deleteProduct', this.actionItem.id)
+				if (value && this.deleteType) {
+					if (this.deleteType === 'array') {
+						this.checked.map((item) => this.$store.dispatch('deleteProduct', item))
+					}
+					if (this.deleteType === 'item') {
+						this.$store.dispatch('deleteProduct', this.actionItem.id)
+					}
+					this.deleteType = null
 				}
 			},
 			pagination (value) {
@@ -121,9 +129,6 @@
 			},
 			checkedEvent (value) {
 				this.checked = value
-			},
-			onDelete () {
-				this.checked.map((item) => this.$store.dispatch('deleteProduct', item))
 			},
 			sortingChanged (value) {
 				this.sortValue = value && value.value
