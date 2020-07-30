@@ -105,14 +105,16 @@
 				}, 10)
 			},
 			sortChange (value) {
-				if (this.sort && this.sort.value !== value) { this.sort = null }
-				if (this.sort && this.sort.type === 'DESC') {
-					this.sort = null
-					return
-				}
-				this.sort = {
-					type: this.sort ? 'DESC' : 'ASC',
-					value: value
+				if (value === this.sortBy || !this.sortBy) {
+					if (this.sort && this.sort.value !== value) { this.sort = null }
+					if (this.sort && this.sort.type === 'DESC') {
+						this.sort = null
+						return
+					}
+					this.sort = {
+						type: this.sort ? 'DESC' : 'ASC',
+						value: value
+					}
 				}
 			}
 		},
