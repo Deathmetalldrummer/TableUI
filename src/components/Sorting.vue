@@ -1,7 +1,7 @@
 <template lang="pug">
 	.sorting
 		span.sorting__.sorting__title Sorting by:
-		button.btn.sorting__(type="button" v-for="item of sorting" @click="change(item)" :class="getClass(item)") {{item.name}}
+		button.btn.sorting__.sorting__btn(type="button" v-for="item of sorting" @click="change(item)" :class="getClass(item)") {{item.name}}
 </template>
 
 <script>
@@ -35,7 +35,14 @@
 </script>
 
 <style scoped lang="sass">
+	.sorting
+		font-size: 0.875rem
 	.sorting__title
-		font-weight: bold
+		font-weight: 600
 		margin-right: 0.5em
+	.sorting__
+		line-height: 1.7
+	.sorting__btn
+		padding-left: 0.6em
+		padding-right: 0.6em
 </style>

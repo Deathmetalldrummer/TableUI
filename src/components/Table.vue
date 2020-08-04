@@ -4,16 +4,16 @@
 		table(v-if='showTable')
 			thead
 				tr
-					th
+					th.col__checkbox
 						.th
 							Checkbox(v-model="checkbox" @click.native="checkAllChanged($event)")
 					th(v-for="item in headerSorted")
-						.th.th__sorting(@click="sortChange(item.value)") {{item.name}}
+						.th.th__sorting(@click="sortChange(item.value)" :class="{'th__sorting_active': sort && sort.type && sort.value === item.value}") {{item.name}}
 							Icons.th__sortingIcon(v-if="sort && sort.value === item.value" :name="sort.type === 'DESC' ? 'arrowDown' : 'arrowUp'")
 					th(v-if='$slots.action')
 			tbody
 				tr(v-for='product in bodySorted')
-					td
+					td.col__checkbox
 						.td
 							Checkbox(v-model="checkboxes" :val="product.id" @click.native="checked()")
 					td(v-for='item in headerSorted')
@@ -132,9 +132,12 @@
 </script>
 
 <style scoped lang="sass">
+	@import '../assets/sass/variable'
 	table
+		font-size: 0.875rem
+		line-height: 1.7
 		background-color: #fff
-		border-radius: 4px
+		border-radius: (1em/4)
 		width: 100%
 		border-collapse: collapse
 
@@ -145,23 +148,30 @@
 	td:first-of-type
 		.td,
 		.th
-			padding-left: 2em
+			padding-left: 2.6em
+			padding-right: 1.4em
 
 	th:last-of-type,
 	td:last-of-type
 		.td
-			padding-right: 2em
+			padding-right: 2.6em
+
+	.col__checkbox
+		width: 1px
 	.th__sorting
 		cursor: pointer
 		display: flex
 		align-items: center
+		transition-duration: 0.3s
+		&_active
+			color: $accent
 	.th__sortingIcon
 		width: 0.6em
 		margin-left: 0.5em
-
-	.td, .th
-		font-size: 0.875em
-		padding: 0.5em
+	.th
+		padding: 1.1em 0.5em
+	.td
+		padding: 0.85em 0.5em
 
 	thead
 		box-shadow: 0 1px 0 0 #D5DAE0
@@ -177,4 +187,8 @@
 
 	.td__action
 		width: 1px
+		opacity: 0
+		transition-duration: 0.3s
+		tr:hover &
+			opacity: 1
 </style>

@@ -1,9 +1,9 @@
 <template lang="pug">
 	.confirm_wrap(ref="confirm" :class="{'confirm_wrap_active': display}")
 		.confirm(v-click-outside="close")
-			.confirm__body
+			.confirm__.confirm__body
 				slot
-			.confirm__action
+			.confirm__.confirm__action
 				button.btn.confirm__cancel(@click="action(false)") Cancel
 				button.btn.btn_depressed.confirm__confirm(@click="action(true)") Confirm
 </template>
@@ -99,6 +99,7 @@
 <style scoped lang="sass">
 	@import '../assets/sass/variable'
 	.confirm_wrap
+		font-size: 0.875rem
 		position: absolute
 		padding-top: 1em
 		top: -1000%
@@ -118,11 +119,12 @@
 		min-width: 16em
 		border-radius: (1em/4)
 		padding: 1em
-	.confirm__body,
-	.confirm__action
+	.confirm__body
+		line-height: 1.7
+	.confirm__
 		text-align: center
 	.confirm__action
-		margin-top: 1em
+		margin-top: 0.3em
 	.confirm__cancel
 		border-radius: (1em/4)
 	.confirm__confirm

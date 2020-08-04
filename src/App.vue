@@ -138,8 +138,12 @@
 </script>
 <style lang="sass">
 	@import './assets/sass/glob'
+	html, body
+		font-size: 16px
 	body
+		padding: 1em 3em 2em
 		background-color: #F2F2F2
+		font-family: 'Source Sans Pro', sans-serif
 	.tableBar_wrap
 		border-top: 1px solid $border_color_base
 	.tableBar

@@ -1,6 +1,6 @@
 <template lang="pug">
 	.pagination
-		button.btn.pagination__(@click="prev()" :disabled="prevDisabled")
+		button.btn.btn_icon.pagination__(@click="prev()" :disabled="prevDisabled")
 			Icons(name="chevronLeft").pagination__icon
 		span.pagination__.pagination__text {{text}}
 		button.btn.btn_icon.pagination__(@click="next()" :disabled="nextDisabled")
@@ -74,6 +74,7 @@
 
 <style scoped lang="sass">
 	.pagination
+		font-size: 0.875rem
 		display: flex
 		justify-content: center
 		align-items: center
@@ -82,6 +83,6 @@
 	.pagination__icon
 		width: 0.417em
 	.pagination__text
-		font-weight: bold
+		font-weight: 600
 		padding: 0 0.5em
 </style>

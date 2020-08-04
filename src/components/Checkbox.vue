@@ -53,6 +53,7 @@
 	.checkbox__fake
 		width: 0.875em
 		height: 0.875em
+		line-height: 1
 		cursor: pointer
 		transition-duration: 0.3s
 		border: 1px solid $border_color_secondary

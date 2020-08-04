@@ -9,7 +9,7 @@ export default new Vuex.Store({
 		products: null,
 		productsHeader: [
 			{
-				name: 'Product(100g serving)',
+				name: 'Product (100g serving)',
 				value: 'product'
 			}, {
 				name: 'Calories',
