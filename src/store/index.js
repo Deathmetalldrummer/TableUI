@@ -52,6 +52,11 @@ export default new Vuex.Store({
 				state.commit('products', respond)
 			}).catch(error => {
 				console.log('WTF?', error)
+				state.dispatch('notifyAdd', {
+					type: 'warning',
+					title: 'Warning',
+					body: 'Ошибка в загрузке данных, попробуйте обновить страницу.'
+				})
 			})
 		},
 		deleteProduct: (state, payload) => {
