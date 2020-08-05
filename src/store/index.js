@@ -26,12 +26,14 @@ export default new Vuex.Store({
 			}, {
 				name: 'Iron (%)',
 				value: 'iron'
-			}]
+			}],
+		notify: []
 	},
 	getters: {
 		products: state => state.products,
 		productsHeader: state => state.productsHeader,
-		productsCount: state => state.products ? state.products.length : 0
+		productsCount: state => state.products ? state.products.length : 0,
+		notify: state => state.notify
 	},
 	mutations: {
 		products: (state, payload) => {
@@ -39,7 +41,9 @@ export default new Vuex.Store({
 		},
 		deleteProduct: (state, payload) => {
 			state.products = state.products.filter(item => item.id !== payload)
-		}
+		},
+		notifyAdd: (state, payload) => state.notify.push(payload),
+		notifyDel: (state, payload) => { state.notify = state.notify.filter(item => item.id !== payload) }
 	},
 	actions: {
 		products: state => {
@@ -54,9 +58,34 @@ export default new Vuex.Store({
 			products.deleteProducts().then(respond => {
 				console.log(`Объект ${payload} удалён!`, respond)
 				state.commit('deleteProduct', payload)
+				state.dispatch('notifyAdd', {
+					type: 'success',
+					title: 'Success',
+					body: `Объект ${payload} удалён!`
+				})
 			}).catch(error => {
 				console.log('Не удалось удалить объект!', error)
+				state.dispatch('notifyAdd', {
+					type: 'warning',
+					title: 'Warning',
+					body: `Не удалось удалить объект ${payload}!`
+				})
 			})
+		},
+		notifyAdd: (state, payload) => {
+			const notify = state.getters.notify
+			const id = notify.length > 0 ? notify[notify.length - 1].id + 1 : notify.length
+			const _payload = {
+				id: id,
+				...payload
+			}
+			state.commit('notifyAdd', _payload)
+			setTimeout(() => {
+				state.dispatch('notifyDel', _payload.id)
+			}, 10000)
+		},
+		notifyDel: (state, payload) => {
+			state.commit('notifyDel', payload)
 		}
 	},
 	modules: {}

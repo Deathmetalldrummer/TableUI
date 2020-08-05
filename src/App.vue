@@ -37,6 +37,7 @@
 		</TableUI>
 		<Confirm :el="elem" @confirm="confirmRespond($event)">Are you sure you want to <b>delete item</b>?
 		</Confirm>
+		<Notify></Notify>
 	</div>
 </template>
 <script>
@@ -47,6 +48,7 @@
 	import Icons from '@/components/Icons'
 	import Sorting from '@/components/Sorting'
 	import Confirm from '@/components/Confirm'
+	import Notify from '@/components/Notify'
 
 	export default {
 		components: {
@@ -56,7 +58,8 @@
 			Pagination,
 			Icons,
 			Sorting,
-			Confirm
+			Confirm,
+			Notify
 		},
 		data () {
 			return {
